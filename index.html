@@ -177,19 +177,25 @@ fetch(textFileURL)
         // Seleccionar el div de la marquesina
         const marquesina = document.getElementById('marquesina');
 
-        // Establecer el intervalo para desplazar las palabras
-        const interval = setInterval(() => {
+        // Función para desplazar las palabras
+        function animate() {
             // Si el primer elemento de las palabras está fuera de la vista, eliminarlo
             if (marquesina.offsetWidth > words[0].offsetWidth) {
                 words.shift();
             }
 
-            // Agregar la última palabra al principio del array
-            words.unshift(words.pop());
+            // Agregar la última palabra al final del array
+            words.push(words.shift());
 
             // Actualizar el contenido del div de la marquesina
             marquesina.innerHTML = words.join(' ');
-        }, 200);
+
+            // Solicitar una nueva animación
+            requestAnimationFrame(animate);
+        }
+
+        // Iniciar la animación
+        animate();
     });
 	</script>
 	<br>
