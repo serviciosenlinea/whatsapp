@@ -1,0 +1,258 @@
+
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Formulario de negocio</title> 
+
+
+<style>
+
+	/*Estilos del boton eliminar */
+        .agregar {
+            position: relative;
+            padding: 8px 16px;
+            color: white;
+            font-size: 16px;
+            background-color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .agregar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .agregar:hover::before {
+            opacity: 1;
+        }
+
+
+
+
+
+
+	/*Estilos del boton eliminar */
+        .eliminar {
+            position: relative;
+            padding: 8px 16px;
+            color: white;
+            font-size: 16px;
+            background-color: red;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .eliminar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .eliminar:hover::before {
+            opacity: 1;
+        }
+
+    /* Estilos del formulario */
+    body {
+      background-color: #f2f2f2;
+      margin: 20px;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombreado para resaltar el formulario */
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px; /* Aumentar tama�o de fuente para mejorar la legibilidad */
+    }
+
+    button[type="submit"] {
+      background-color: #336699;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px; /* Aumentar tama�o de fuente para mejorar la legibilidad */
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+#nombre_negocio {
+    font-weight: bold;
+    color: #336699;
+    font-size: 22px;
+   }
+
+#direccion_negocio {
+    font-weight: bold;
+    color: #336699;
+    font-size: 22px;
+   }
+
+#telefono_negocio {
+    font-weight: bold;
+    color: #336699;
+    font-size: 22px;
+   }
+
+
+#costo {
+    color: green;
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+#producto {
+    text-transform: uppercase;
+    color: green;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  </style>
+</head> 
+<body> <center>
+<form id="formulario"> 
+<h1>Vende por WhatsApp</h1>
+<input type="text" id="nombre_negocio" name="Nombre del Negocio" placeholder="Nombre del negocio" oninput="capitalizeFirstLetterOfEachWord1()" required>
+
+    <input type="number" id="telefono_negocio" name="Telefono del Negocio" placeholder="Telefono del negocio" required>
+
+    <input type="text" id="direccion_negocio" name="Direccion del Negocio" placeholder="Direccion del negocio"  oninput="capitalizeFirstLetterOfEachWord2()" required>
+
+    <div id="platillos">
+        <div class="platillo">
+            <h2>Agrega tus productos</h2>
+ 
+        </div>
+    </div>
+
+    <button class="agregar" type="button" id="agregar">Agregar Producto</button><br><br><br><br>
+    <button type="submit">Enviar</button>
+</form>
+
+<script>
+    document.getElementById('agregar').addEventListener('click', function() {
+        var platillo = document.createElement('div');
+        platillo.className = 'platillo';
+        platillo.innerHTML = `
+            <input type="text" id="producto" name="producto" placeholder=" Nombre del producto" oninput="capitalizeFirstLetterOfEachWord3()" required>
+
+            <input type="text" id="costo" name="costo" placeholder=" Precio del producto" pattern="^\$?\d+(\.\d{1,2})?$" inputmode="numeric" required>
+
+            <button class="eliminar">Eliminar</button><br><br><br><br>
+        `;
+        document.getElementById('platillos').appendChild(platillo);
+
+        var eliminar = platillo.querySelector('.eliminar');
+        eliminar.addEventListener('click', function() {
+            platillo.parentNode.removeChild(platillo);
+        });
+    });
+
+    document.getElementById('formulario').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var formData = new FormData(event.target);
+        var url = 'https://wa.me/6183690043?text=';
+
+        formData.forEach(function(value, key) {
+            url += encodeURIComponent(key + ': ' + value) + '%0A %0A';
+        });
+
+        window.open(url);
+
+        // Borrar o actualizar la p�gina al hacer submit
+        window.location.reload();
+    });
+</script>
+<script>
+function capitalizeFirstLetterOfEachWord1() {
+ var campoTexto = document.getElementById("nombre_negocio");
+ var valorActual = campoTexto.value;
+ var valorNuevo = valorActual.replace(/\b[a-z]/g, function(letra) {
+    return letra.toUpperCase();
+ });
+ campoTexto.value = valorNuevo;
+}</script>
+
+<script>
+function capitalizeFirstLetterOfEachWord2() {
+ var campoTexto = document.getElementById("direccion_negocio");
+ var valorActual = campoTexto.value;
+ var valorNuevo = valorActual.replace(/\b[a-z]/g, function(letra) {
+    return letra.toUpperCase();
+ });
+ campoTexto.value = valorNuevo;
+}</script>
+
+<script>
+function capitalizeFirstLetterOfEachWord3() {
+ var campoTexto = document.getElementById("producto");
+ var valorActual = campoTexto.value;
+ var valorNuevo = valorActual.replace(/\b[a-z]/g, function(letra) {
+    return letra.toUpperCase();
+ });
+ campoTexto.value = valorNuevo;
+}</script>
+
+
+<script>
+    // Funci�n para agregar el s�mbolo "$" al salir del campo
+    document.getElementById('costo').addEventListener('blur', function() {
+      const value = this.value.trim();
+      if (value !== '' && !value.startsWith('$')) {
+        this.value = '$' + value;
+      }
+    });
+  </script>
+
+
+
+
+</center>
+</body> </html>
