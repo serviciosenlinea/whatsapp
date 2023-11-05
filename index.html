@@ -40,23 +40,10 @@
 
 
 	/* Estilo de la cinta de noticias en div que toma texto */
-	.marquee {
-            width: 100%;
-            background-color: black;
-            color: white;
-            overflow: hidden;
+	#myText {
             white-space: nowrap;
-            font-size: 20px;
-            animation: marquee 5s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% {
-                transform: translate(100%, 0);
-            }
-            100% {
-                transform: translate(-100%, 0);
-            }
+            overflow: hidden;
+            border: none;
         }
 
 
@@ -178,27 +165,21 @@
         <div id="texto"></div>
     </div>
 
-    <div class="marquee" id="content"></div>
+     <div id="myText"></div>
 
-<script>
-var request = new XMLHttpRequest();
-request.open('GET', 'texto.txt', true);
-request.onload = function() {
- if (request.status >= 200 && request.status < 400) {
-    // Success!
-    var data = request.responseText;
-    document.getElementById('content').innerHTML = data;
- } else {
-    // We reached our target server, but it returned an error
-    console.error('La solicitud ha fallado:', request);
- }
-};
-request.onerror = function() {
- // There was a connection error of some sort
- console.error('Ha habido un error en la solicitud:', request);
-};
-request.send();
-</script>
+    <script>
+        const myTextDiv = document.getElementById('myText');
+        fetch('myText.txt')
+            .then(response => response.text())
+            .then(text => {
+                let i = 0;
+                function moveText() {
+                    myTextDiv.innerText = text.substr(i) + text.substr(0, i);
+                    i = (i + 1) % text.length;
+                }
+                setInterval(moveText, 100);
+            });
+    </script>
 	<br>
 <form id="formulario"> 
 <h1>Vende por WhatsApp</h1>
