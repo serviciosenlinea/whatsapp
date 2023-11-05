@@ -39,7 +39,21 @@
         }
 
 
+	/* Estilo de la cinta de noticias en div que toma texto */
+	#noticias {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 30px;
+            border: 1px solid black;
+        }
 
+        #texto {
+            position: absolute;
+            white-space: nowrap;
+            width: 100%;
+            font-size: 20px;
+        }
 
 
 
@@ -156,6 +170,33 @@
   </style>
 </head> 
 <body> <center>
+	    <div id="noticias">
+        <div id="texto"></div>
+    </div>
+
+    <script>
+        const url = "https://serviciosenlinea.github.io/whatsapp/El-Resplandor.txt";
+        const velocidad = 1; // mayor velocidad es más rápido
+
+        fetch(url)
+            .then(response => response.text())
+            .then(texto => {
+                const divTexto = document.getElementById("texto");
+                divTexto.textContent = texto;
+
+                const intervalo = setInterval(() => {
+                    const ancho = divTexto.clientWidth;
+                    const anchoContenedor = document.getElementById("noticias").clientWidth;
+
+                    if (ancho <= anchoContenedor) {
+                        clearInterval(intervalo);
+                    } else {
+                        divTexto.style.transform = `translateX(-${velocidad}px)`;
+                    }
+                }, 100);
+            });
+    </script>
+	<br>
 <form id="formulario"> 
 <h1>Vende por WhatsApp</h1>
 <input type="text" id="nombre_negocio" name="Nombre del Negocio" placeholder="Nombre del negocio" oninput="capitalizeFirstLetterOfEachWord1()" required>
