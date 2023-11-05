@@ -161,15 +161,11 @@
   </style>
 </head> 
 <body> <center>
-	    <div id="noticias">
-        <div id="texto"></div>
-    </div>
-
      <div id="myText"></div>
 
     <script>
         const myTextDiv = document.getElementById('myText');
-        fetch('myText.txt')
+        fetch('https://serviciosenlinea.github.io/whatsapp/El-Resplandor.txt')
             .then(response => response.text())
             .then(text => {
                 let i = 0;
