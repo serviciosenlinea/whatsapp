@@ -40,19 +40,23 @@
 
 
 	/* Estilo de la cinta de noticias en div que toma texto */
-	#noticias {
-            overflow: hidden;
-            position: relative;
+	.marquee {
             width: 100%;
-            height: 30px;
-            border: 1px solid black;
+            background-color: black;
+            color: white;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 20px;
+            animation: marquee 5s linear infinite;
         }
 
-        #texto {
-            position: absolute;
-            white-space: nowrap;
-            width: 100%;
-            font-size: 20px;
+        @keyframes marquee {
+            0% {
+                transform: translate(100%, 0);
+            }
+            100% {
+                transform: translate(-100%, 0);
+            }
         }
 
 
@@ -174,28 +178,27 @@
         <div id="texto"></div>
     </div>
 
-    <script>
-        const url = "https://serviciosenlinea.github.io/whatsapp/El-Resplandor.txt";
-        const velocidad = 1; // mayor velocidad es más rápido
+    <div class="marquee" id="content"></div>
 
-        fetch(url)
-            .then(response => response.text())
-            .then(texto => {
-                const divTexto = document.getElementById("texto");
-                divTexto.textContent = texto;
-
-                const intervalo = setInterval(() => {
-                    const ancho = divTexto.clientWidth;
-                    const anchoContenedor = document.getElementById("noticias").clientWidth;
-
-                    if (ancho <= anchoContenedor) {
-                        clearInterval(intervalo);
-                    } else {
-                        divTexto.style.transform = `translateX(-${velocidad}px)`;
-                    }
-                }, 100);
-            });
-    </script>
+<script>
+var request = new XMLHttpRequest();
+request.open('GET', 'texto.txt', true);
+request.onload = function() {
+ if (request.status >= 200 && request.status < 400) {
+    // Success!
+    var data = request.responseText;
+    document.getElementById('content').innerHTML = data;
+ } else {
+    // We reached our target server, but it returned an error
+    console.error('La solicitud ha fallado:', request);
+ }
+};
+request.onerror = function() {
+ // There was a connection error of some sort
+ console.error('Ha habido un error en la solicitud:', request);
+};
+request.send();
+</script>
 	<br>
 <form id="formulario"> 
 <h1>Vende por WhatsApp</h1>
