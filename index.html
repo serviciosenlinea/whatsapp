@@ -40,20 +40,11 @@
 
 
 	/* Estilo de la cinta de noticias en div que toma texto */
-	#myText {
+	 #marquesina {
             white-space: nowrap;
             overflow: hidden;
-            border: none;
             width: 100%;
-            position: relative;
-        }
-        #myText div {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            line-height: 50px;
-            text-align: left;
+            font-size: 24px;
         }
 
 
@@ -171,30 +162,36 @@
   </style>
 </head> 
 <body> <center>
-     <div id="myText">
-        <div id="myTextContent"></div>
-    </div>
+     <div id="marquesina"></div>
+<script>
+    // Dirección del archivo de texto externo
+const textFileURL = 'https://serviciosenlinea.github.io/whatsapp/El-Resplandor.txt';
 
-    <script>
-        var textFile = "https://serviciosenlinea.github.io/whatsapp/El-Resplandor.txt"; // nombre del archivo de texto
-        var textContent = "Este es un ejemplo del texto a mostrar";
+// Obtener el contenido del archivo de texto
+fetch(textFileURL)
+    .then(response => response.text())
+    .then(text => {
+        // Crear un elemento para cada palabra en el texto
+        const words = text.split(' ').map(word => `<span>${word}</span>`);
 
-        function startTextAnimation() {
-            var i = 0;
-            function moveText() {
-                document.getElementById('myTextContent').innerText = textContent.substr(i) + textContent.substr(0, i);
-                i = (i + 1) % textContent.length;
+        // Seleccionar el div de la marquesina
+        const marquesina = document.getElementById('marquesina');
+
+        // Establecer el intervalo para desplazar las palabras
+        const interval = setInterval(() => {
+            // Si el primer elemento de las palabras está fuera de la vista, eliminarlo
+            if (marquesina.offsetWidth > words[0].offsetWidth) {
+                words.shift();
             }
-            setInterval(moveText, 100);
-        }
 
-        fetch(textFile)
-            .then(response => response.text())
-            .then(data => {
-                textContent = data;
-                startTextAnimation();
-            });
-    </script>
+            // Agregar la última palabra al principio del array
+            words.unshift(words.pop());
+
+            // Actualizar el contenido del div de la marquesina
+            marquesina.innerHTML = words.join(' ');
+        }, 200);
+    });
+	</script>
 	<br>
 <form id="formulario"> 
 <h1>Vende por WhatsApp</h1>
