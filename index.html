@@ -167,6 +167,9 @@
     // Dirección del archivo de texto externo
 const textFileURL = 'https://serviciosenlinea.github.io/whatsapp/El-Resplandor.txt';
 
+// Velocidad de desplazamiento (píxeles por frame)
+const scrollSpeed = 1;
+
 // Obtener el contenido del archivo de texto
 fetch(textFileURL)
     .then(response => response.text())
@@ -189,6 +192,9 @@ fetch(textFileURL)
 
             // Actualizar el contenido del div de la marquesina
             marquesina.innerHTML = words.join(' ');
+
+            // Actualizar la posición de desplazamiento del div de la marquesina
+            marquesina.style.transform = `translateX(-${scrollSpeed}px)`;
 
             // Solicitar una nueva animación
             requestAnimationFrame(animate);
