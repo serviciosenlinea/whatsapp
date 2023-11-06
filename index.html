@@ -40,21 +40,12 @@
 
 
 	/* Estilo de la cinta de noticias en div que toma texto */
-	 #marquesina {
+	  #marquesina {
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100%;
             font-size: 24px;
-        display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        width: 100%;
-        padding-left: 100%;
-        box-sizing: border-box;
-        animation: marquee 10s linear infinite;
-    }
-
-    @keyframes marquee {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(-100%, 0); }
-    }
+        }
 
 
 
